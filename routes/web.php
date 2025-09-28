@@ -8,10 +8,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\ClassificationController;
-use App\Http\Controllers\Form2AController;
 Use App\Http\Controllers\ResearchController;
 use Laravel\Tinker\ClassAliasAutoloader;
-//use App\Http\Controllers\Form2BController;
+
+use App\Http\Controllers\Form2AController;
+use App\Http\Controllers\Form2BController;
+
 //use App\Http\Controllers\Form2CController;
 //use App\Http\Controllers\Form2DController;
 //use App\Http\Controllers\Form5EController;
@@ -274,11 +276,13 @@ Route::post('/assign-forms-ajax', [FormAssignment::class, 'assignFormsAjax'])
 
 //Storing Data for Form2A
 Route::get('/student/download-forms', [Form2AController::class, 'index'])->name('download-forms');
+
 Route::post('/student/store', [Form2AController::class, 'store'])->name('form2a.store');
 Route::get('/export-form2a', [PdfExportController::class, 'exportForm2A'])->name('export.form2a');
 
 //Storing Data for Form2B
-Route::post('/student/forms/form2b/store', [Form2BController::class, 'store'])->name('form2b.store');
+Route::get('/student/forms/form2b', [Form2BController::class, 'edit'])->name('form2b.edit');
+Route::post('/student/forms/form2b', [Form2BController::class, 'store'])->name('form2b.store');
 
 //pdf exporter
 Route::get('/export-form2b', [PdfExportController::class, 'exportForm2B'])->name('export.form2b');

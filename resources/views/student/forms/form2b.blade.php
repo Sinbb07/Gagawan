@@ -1,7 +1,8 @@
 @section('title', 'Form 2(B)')
 <x-student-layout>
     <main class="xl:ml-[335px] max-xl:ml-auto p-4">
-        <form action="" method="POST" class="block">
+        <form action="{{ route('form2b.store') }}" method="POST" class="block">
+            @csrf
             <div class="mt-3 p-1 max-w-7xl w-full bg-lightgray rounded mx-auto shadow-md">
                 <p class="text-right mt-3 mr-3 max-lg:text-sm max-md:text-sm max-sm:text-xs">FORM 2(B)</p>
                 <h1
@@ -22,7 +23,7 @@
                         <label class="font-semibold text-base max-2xl:text-base max-lg:text-sm max-sm:text-[13px]">
                             STUDY PROTOCOL TITLE
                         </label>
-                        <input type="text" name="protocol_title"
+                        <input type="text" name="protocol" value="{{ old('protocol', $researchInfo->research_title ?? '') }}"
                             class="block rounded border border-darkgray mt-1 w-full text-sm max-sm:text-[13px] h-[35px] max-lg:h-[30px]"
                             required>
                     </div>

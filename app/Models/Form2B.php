@@ -21,4 +21,9 @@ class Form2B extends Model
     {
         return $this->belongsTo(User::class, 'user_ID', 'user_ID');
     }
+
+    public function researchInfo()
+    {
+    return $this->hasOne(ResearchInformation::class, 'user_ID', 'user_ID');
+    }
 }

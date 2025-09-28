@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Form2B;
 use Illuminate\Support\Facades\Auth;
@@ -11,13 +10,13 @@ class Form2BController extends Controller
 {
     public function store(Request $request)
     {
-        // 1. Validate required fields
+        // Validate required fields (you can make some nullable for drafts)
         $request->validate([
-            'protocol_title' => 'required|string|max:255',
+            'protocol_title' => 'nullable|string|max:255',
         ]);
 
-        // 2. Generate custom ID (f2b000001, f2b000002, ...)
-        $lastId = Form2B::max('form2BID'); // get latest ID
+        // Generate ID only if creating new
+        $lastId = Form2B::max('form2BID');
         if ($lastId) {
             $num = intval(substr($lastId, 3)) + 1;
             $form2BID = 'f2b' . str_pad($num, 6, '0', STR_PAD_LEFT);
@@ -25,14 +24,28 @@ class Form2BController extends Controller
             $form2BID = 'f2b000001';
         }
 
-        // 3. Insert using Eloquent
-        Form2B::create([
-            'form2BID'  => $form2BID,
-            'user_ID'   => Auth::user()->user_ID,
-            'protocol'  => $request->protocol_title, // maps your form input
-        ]);
+        // Save or update draft (always one record per user)
+        Form2B::updateOrCreate(
+            ['user_ID' => Auth::user()->user_ID], // find by user
+            [
+                'form2BID'  => $form2BID,
+                'protocol'  => $request->protocol_title,
+            ]
+        );
 
-        // 4. Redirect back with success
-        return redirect()->back()->with('success', 'Form 2B submitted successfully!');
+        return redirect()->back()->with('success', 'Your draft has been saved!');
+    }
+
+    public function edit()
+    {
+    $userId = Auth::user()->user_ID;
+
+    // fetch draft if exists
+    $form2b = Form2B::where('user_ID', $userId)->first();
+
+    // fetch research info for this user
+    $researchInfo = \App\Models\ResearchInformation::where('user_ID', $userId)->first();
+
+    return view('student.forms.form2b', compact('form2b', 'researchInfo'));
     }
 }
