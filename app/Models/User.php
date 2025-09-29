@@ -85,4 +85,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Form2B::class, 'user_ID', 'user_ID');
     }
+
+    public function getFullNameAttribute()
+    {
+    // If middle initial exists, add it with a dot
+    $mi = $this->user_MI ? "{$this->user_MI}." : '';
+
+    return "{$this->user_Fname} {$mi} {$this->user_Lname}";
+    }
 }

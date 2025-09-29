@@ -12,7 +12,10 @@ class Form2BController extends Controller
     {
         // Validate required fields (you can make some nullable for drafts)
         $request->validate([
-            'protocol_title' => 'nullable|string|max:255',
+            'protocol_title' => 'required|string|max:255',
+            'pi_name' => 'required|string|max:255',
+            'pi_email' => 'required|string|max:255',
+            'coiname' => 'required|string|max:255',
         ]);
 
         // Generate ID only if creating new
@@ -29,7 +32,10 @@ class Form2BController extends Controller
             ['user_ID' => Auth::user()->user_ID], // find by user
             [
                 'form2BID'  => $form2BID,
-                'protocol'  => $request->protocol_title,
+                'protocol'  => $request->protocol,
+                'pi_name'    => auth()->user()->full_name,
+                'pi_email' =>$request->pi_email,
+                'coiname' =>$request->coiname,
             ]
         );
 
@@ -38,14 +44,20 @@ class Form2BController extends Controller
 
     public function edit()
     {
-    $userId = Auth::user()->user_ID;
+        $user = auth()->user();
 
-    // fetch draft if exists
-    $form2b = Form2B::where('user_ID', $userId)->first();
+        $mi = $user->user_MI ? "{$user->user_MI}." : '';
+        $principalInvestigator = "{$user->user_Fname} {$mi} {$user->user_Lname}";
+        $userEmail = $user->user_Email;
 
-    // fetch research info for this user
-    $researchInfo = \App\Models\ResearchInformation::where('user_ID', $userId)->first();
+        $userId = $user->user_ID;
 
-    return view('student.forms.form2b', compact('form2b', 'researchInfo'));
+        // fetch draft if exists
+        $form2b = Form2B::where('user_ID', $userId)->first();
+
+        // fetch research info for this user
+        $researchInfo = \App\Models\ResearchInformation::where('user_ID', $userId)->first();
+
+        return view('student.forms.form2b', compact('form2b', 'researchInfo', 'principalInvestigator'));
     }
 }

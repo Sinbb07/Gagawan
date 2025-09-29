@@ -15,6 +15,8 @@ class Form2B extends Model
         'form2BID',
         'user_ID',
         'protocol',
+        'pi_name',
+        'pi_email',
     ];
 
     public function user()

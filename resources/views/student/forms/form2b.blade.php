@@ -32,7 +32,7 @@
                         <label class="font-semibold text-base max-2xl:text-base max-lg:text-sm max-sm:text-[13px]">
                             PRINCIPAL INVESTIGATOR
                         </label>
-                        <input type="text" name="pi_name"
+                        <input type="text" name="pi_name" value="{{ $principalInvestigator }}" 
                             class="mt-1 rounded border border-darkgray w-full text-sm max-sm:text-[13px] h-[35px] max-lg:h-[30px]"
                             required>
                     </div>
@@ -44,7 +44,7 @@
                         <label class="font-semibold text-base max-2xl:text-base max-lg:text-sm max-sm:text-[13px]">
                             PI CONTACT NO.
                         </label>
-                        <input type="tel" name="pi_contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
+                        <input type="tel" name="pi_contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="0927-409-2591 "
                             class="mt-1 rounded border border-darkgray w-full text-sm max-sm:text-[13px] h-[35px] max-lg:h-[30px]"
                             required>
                     </div>
@@ -53,7 +53,7 @@
                         <label class="font-semibold text-base max-2xl:text-base max-lg:text-sm max-sm:text-[13px]">
                             PI EMAIL ADDRESS
                         </label>
-                        <input type="email" name="pi_email" placeholder="user123@gmail.com"
+                        <input type="email" name="pi_email" placeholder="user123@gmail.com" value="{{ auth()->user()->user_Email }}"
                             class="mt-1 rounded border border-darkgray w-full text-sm max-sm:text-[13px] h-[35px] max-lg:h-[30px]"
                             required>
                     </div>
@@ -62,7 +62,7 @@
                         <label class="font-semibold text-base max-2xl:text-base max-lg:text-sm max-sm:text-[13px]">
                             CO-INVESTIGATOR
                         </label>
-                        <input type="text" name="coiname"
+                        <input type="text" name="coiname" value="{{ old('coiname', $researchInfo->research_CoInvestigator ?? '') }}"
                             class="mt-1 rounded border border-darkgray w-full text-sm max-sm:text-[13px] h-[35px] max-lg:h-[30px]"
                             required>
                     </div>

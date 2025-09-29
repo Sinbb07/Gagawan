@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('form2BID')->primary();
             $table->string('user_ID'); // 👈 must exist before foreign key
             $table->string('protocol');
+            $table->string('pi_name');
+            $table->string('pi_email');
             $table->timestamps();
 
             // Add foreign key after declaring column
